@@ -6,7 +6,11 @@ using UnityEngine.SceneManagement;
 public class SwitchScene : MonoBehaviour
 {
     public void SwitchLogin(){
-        SceneManager.LoadScene("Login");
+        if (StaticData.getLogged()){
+            SceneManager.LoadScene("GameWorld");
+        }else{
+            SceneManager.LoadScene("Login");
+        }
     }
 
     public void SwitchLeaderboard(){

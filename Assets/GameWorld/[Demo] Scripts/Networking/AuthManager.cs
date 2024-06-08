@@ -18,6 +18,38 @@ public class AuthManager : MonoBehaviour
     public TMP_InputField password;
     private CloudSaveScript cloud;
     bool canLogin = false;
+    bool canRegister = false;
+    void Update(){
+        if (status.text != null){
+            string pass = password.text;
+            if (IsPasswordValid(pass)) {
+                status.text = "Password is valid";
+                canRegister = true;
+            } else {
+                status.text = "Password is invalid (Must have a minimum of 8 characters, atleast 1 Upper case letter, 1 lower case letter, 1 number, and 1 special character)";
+            }
+        }
+    }
+
+    private bool IsPasswordValid(string pass) {
+        if (pass.Length < 8)
+            return false;
+
+        bool hasUpperCase = false, hasLowerCase = false, hasDigit = false, hasSpecialChar = false;
+
+        foreach (char c in pass) {
+            if (char.IsUpper(c))
+                hasUpperCase = true;
+            else if (char.IsLower(c))
+                hasLowerCase = true;
+            else if (char.IsDigit(c))
+                hasDigit = true;
+            else if (!char.IsLetterOrDigit(c))
+                hasSpecialChar = true;
+        }
+        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+    }
+
     public async void Start(){
         await UnityServices.InitializeAsync();
         cloud = CloudObject.GetComponent<CloudSaveScript>();
@@ -57,31 +89,36 @@ public class AuthManager : MonoBehaviour
     }
     public IEnumerator RegisterData_Coroutine(Action callback)
     {
-        string name = username.text;
-        string pass = password.text;
-        WWWForm form = new WWWForm();
-        form.AddField("username", name);
-        form.AddField("password", pass);
-        string URL = "http://localhost/bungkal/register.php";
-        using (UnityWebRequest users = UnityWebRequest.Post(URL, form))
-        {
-            yield return users.SendWebRequest();
-            if (users.result == UnityWebRequest.Result.ConnectionError)
+        if (canRegister){
+            string name = username.text;
+            string pass = password.text;
+            WWWForm form = new WWWForm();
+            form.AddField("username", name);
+            form.AddField("password", pass);
+            string URL = "http://localhost/bungkal/register.php";
+            using (UnityWebRequest users = UnityWebRequest.Post(URL, form))
             {
-                status.text = users.downloadHandler.text;
+                yield return users.SendWebRequest();
+                if (users.result == UnityWebRequest.Result.ConnectionError)
+                {
+                    status.text = users.downloadHandler.text;
+                }
+                else if (users.downloadHandler.text == "Error101")
+                {
+                    status.text = "Player username already registered";
+                }
+                else
+                {
+                    status.text = users.downloadHandler.text;
+                    StaticData.SaveID(Int32.Parse(users.downloadHandler.text));
+                    StaticData.SaveName(name);
+                    callback();
+                }
             }
-            else if (users.downloadHandler.text == "Error101")
-            {
-                status.text = "Player username already registered";
-            }
-            else
-            {
-                status.text = users.downloadHandler.text;
-                StaticData.SaveID(Int32.Parse(users.downloadHandler.text));
-                StaticData.SaveName(name);
-                callback();
-            }
+        } else {
+            status.text = "Password is invalid (Must have a minimum of 8 characters, atleast 1 Upper case letter, 1 lower case letter, 1 number, and 1 special character)";
         }
+        
     }
     public void Register()
     {
@@ -109,6 +146,7 @@ public class AuthManager : MonoBehaviour
         if (canLogin){
             await SignInWithUsernamePasswordAsync();
             SceneManager.LoadScene("GameWorld");
+            StaticData.Logged();
         } else {
             status.text = "Try logging in again";
         }
@@ -124,8 +162,6 @@ public class AuthManager : MonoBehaviour
         }
         catch (AuthenticationException ex)
         {
-            // Compare error code to AuthenticationErrorCodes
-            // Notify the player with the proper error message
             Debug.LogException(ex);
         }
     }
@@ -153,17 +189,6 @@ public class AuthManager : MonoBehaviour
             Debug.LogException(ex);
         }
     }
-    
-    public void SignOut()
-        {
-            try
-            {
-                AuthenticationService.Instance.SignOut(true);
-            }catch (Exception e){
-                Debug.Log(e);
-            }
-        }
-        //STILL ON GOING PROCESS OF LOGOUT SCREEN
 }
 
 

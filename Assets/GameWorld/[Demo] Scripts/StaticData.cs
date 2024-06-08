@@ -10,6 +10,7 @@ public class StaticData : MonoBehaviour
 {
     private static string user;
     private static int ID;
+    private static bool logged = false;
 
     public static int GetID()
     {
@@ -40,5 +41,22 @@ public class StaticData : MonoBehaviour
         Destroy(player);
         //When registering the player, RUN THIS AS FIRST
     }
+
+    public static void Logged()
+    {
+        if (logged == true) {
+            logged = false;
+        } else {
+            logged = true;
+        }
+    }   
+
+    public static bool getLogged(){
+        return logged;
+    }
+
+
+
+
 
 }

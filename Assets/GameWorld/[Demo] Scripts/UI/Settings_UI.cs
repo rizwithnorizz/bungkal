@@ -22,7 +22,6 @@ public class Settings_UI : MonoBehaviour
     }
 
     public void mainMenuButton(){
-        signOut();
         SceneManager.LoadScene("Mainscreen");
     }
 
@@ -30,6 +29,8 @@ public class Settings_UI : MonoBehaviour
         try
         {
             AuthenticationService.Instance.SignOut(true);
+            SceneManager.LoadScene("Login");
+            StaticData.Logged();
         }catch (Exception e){
             Debug.Log(e);
         }
