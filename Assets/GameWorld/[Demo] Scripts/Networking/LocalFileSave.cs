@@ -16,6 +16,7 @@ public class LocalFileSave : MonoBehaviour
     }
     public void export()
     {
+        //GAME DATA INTO JSON FILE
         Debug.Log("Player saving: " + player.compiler.username);
         string strOutput = JsonUtility.ToJson(player.compiler); //string = isaiah.text
         File.WriteAllText(Application.dataPath + "/PlayerFile.json", strOutput); //file = string
@@ -24,6 +25,7 @@ public class LocalFileSave : MonoBehaviour
 
     public void import()
     {
+        //JSON FILE TO GAME DATA
         Debug.Log("Local");
         player.compiler = JsonUtility.FromJson<Player.Compile>(jsonText.text);
         //Debug.Log("Unity Player Attributes successfully imported to Local Player File");

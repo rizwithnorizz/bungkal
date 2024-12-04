@@ -7,10 +7,13 @@ using TMPro;
 using System.Security.Cryptography.X509Certificates;
 using System.Data;
 using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine.UI;
 
 
 public class Player : MonoBehaviour
 {
+    public Slider healthBar;
     public Compile compiler = new Compile();
     public GameObject _save;
     public GameObject _leaderboards;
@@ -36,6 +39,10 @@ public class Player : MonoBehaviour
         Debug.Log("Added artifact: "+newArtifact.artifact_name);
         save.export();
         lead.PostScore(compiler.userID, compiler.username, newArtifact);
+    }
+    public void decreaseHealth(){
+        compiler.heatlhPoints -= 1;
+        healthBar.value = compiler.heatlhPoints;
     }
 }
     //Compiler of user properties and its inventory of artifacts

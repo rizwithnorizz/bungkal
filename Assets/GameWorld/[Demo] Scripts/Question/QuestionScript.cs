@@ -50,6 +50,8 @@ public class QuestionScript : MonoBehaviour
 
     public void wrongAnswer(){
         _questionPanel.SetActive(false);
+        Player player = FindObjectOfType<Player>();
+        player.decreaseHealth();
         Debug.Log("Wrong answer!");
     }
 

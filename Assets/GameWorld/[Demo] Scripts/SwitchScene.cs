@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class SwitchScene : MonoBehaviour
@@ -11,6 +12,9 @@ public class SwitchScene : MonoBehaviour
         }else{
             SceneManager.LoadScene("Login");
         }
+    }
+    public void SwitchRegister(){
+        SceneManager.LoadScene("Register");
     }
 
     public void SwitchLeaderboard(){

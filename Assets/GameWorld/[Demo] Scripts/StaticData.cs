@@ -35,6 +35,7 @@ public class StaticData : MonoBehaviour
         BlankPlayer player = FindObjectOfType<BlankPlayer>();
         player.compiler.username = user;
         player.compiler.userID = ID;
+        player.compiler.heatlhPoints = 10;
         Debug.Log("Player saving: " + player.compiler.username);
         string strOutput = JsonUtility.ToJson(player.compiler); //string = isaiah.text
         File.WriteAllText(Application.dataPath + "/BlankPlayer.json", strOutput); //file = string

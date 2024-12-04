@@ -12,43 +12,13 @@ using UnityEngine.SceneManagement; //Text fields
 public class AuthManager : MonoBehaviour
 {
     public GameObject CloudObject;
+    public GameObject passwordObject;
     public TMP_Text status;
     //public GameObject LocalFile;
     public TMP_InputField username;
     public TMP_InputField password;
     private CloudSaveScript cloud;
     bool canLogin = false;
-    bool canRegister = false;
-    void Update(){
-        if (status.text != null){
-            string pass = password.text;
-            if (IsPasswordValid(pass)) {
-                status.text = "Password is valid";
-                canRegister = true;
-            } else {
-                status.text = "Password is invalid (Must have a minimum of 8 characters, atleast 1 Upper case letter, 1 lower case letter, 1 number, and 1 special character)";
-            }
-        }
-    }
-
-    private bool IsPasswordValid(string pass) {
-        if (pass.Length < 8)
-            return false;
-
-        bool hasUpperCase = false, hasLowerCase = false, hasDigit = false, hasSpecialChar = false;
-
-        foreach (char c in pass) {
-            if (char.IsUpper(c))
-                hasUpperCase = true;
-            else if (char.IsLower(c))
-                hasLowerCase = true;
-            else if (char.IsDigit(c))
-                hasDigit = true;
-            else if (!char.IsLetterOrDigit(c))
-                hasSpecialChar = true;
-        }
-        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
-    }
 
     public async void Start(){
         await UnityServices.InitializeAsync();
@@ -89,7 +59,8 @@ public class AuthManager : MonoBehaviour
     }
     public IEnumerator RegisterData_Coroutine(Action callback)
     {
-        if (canRegister){
+        confirmPassword Confirm = FindAnyObjectByType<confirmPassword>();
+        if (Confirm.canRegister){
             string name = username.text;
             string pass = password.text;
             WWWForm form = new WWWForm();
