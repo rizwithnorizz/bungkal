@@ -12,7 +12,9 @@ public class Slots_UI : MonoBehaviour
     public Image icon;
     public bool empty = true;
     public Artifacts artNew;
-    public void SetItem(Artifacts art){
+    public int index;
+    public void SetItem(Artifacts art, int n){
+        index = n;
         artNew = art;
         icon.sprite = art.icon;
         icon.color = new Color(1,1,1,1);  

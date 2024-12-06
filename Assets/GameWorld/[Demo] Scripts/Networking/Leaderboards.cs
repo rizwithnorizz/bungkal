@@ -5,12 +5,17 @@ using UnityEngine.Networking;
 
 public class Leaderboards : MonoBehaviour
 {
-
+    string envPath = Application.dataPath + "/.env";
+    string DB_URL;
+    void Start(){
+         EnvLoader.LoadEnv(envPath);
+         DB_URL = EnvLoader.GetEnv("DB_URL");
+    }
     public void PostScore(int playerID, string username, Artifacts art){
         StartCoroutine(PostData_Coroutine(playerID, username, art));
     }
    public IEnumerator PostData_Coroutine(int playerID, string userR, Artifacts art){
-        string URL = "http://localhost/bungkal/leaderboardsSelect.php";
+        string URL = "http://"+DB_URL+"/bungkal/leaderboardsSelect.php";
 
         int userID = playerID;
         string username = userR;

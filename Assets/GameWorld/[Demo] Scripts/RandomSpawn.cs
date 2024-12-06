@@ -9,14 +9,14 @@ public class RandomSpawn : MonoBehaviour
     List<Vector3> spawnPositions = new List<Vector3>();
     public float minDistanceBetweenObjects = 1.5f; // Minimum distance between spawned objects
     public float Radius = 1;
-    public int playerChance = 20;
+    public int playerChance = 10;
     public int max = 101;
     int x;
     int artifactIndex;
     void Start(){
         for(x = 0; x<30; x++){
             if (Random.Range(0,max) < playerChance){
-                artifactIndex = Random.Range(2, listObj.Count);
+                artifactIndex = 2;
             } else {
                 if(Random.Range(0,11) < 7){
                     artifactIndex = 0;

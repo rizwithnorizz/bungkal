@@ -19,10 +19,13 @@ public class AuthManager : MonoBehaviour
     public TMP_InputField password;
     private CloudSaveScript cloud;
     bool canLogin = false;
-
+    string envPath = Application.dataPath + "/.env";
+    string DB_URL;
     public async void Start(){
         await UnityServices.InitializeAsync();
         cloud = CloudObject.GetComponent<CloudSaveScript>();
+        EnvLoader.LoadEnv(envPath);
+        DB_URL = EnvLoader.GetEnv("DB_URL");
     }
 
     public IEnumerator GetData_Coroutine(Action callback)
@@ -32,7 +35,7 @@ public class AuthManager : MonoBehaviour
         WWWForm form = new WWWForm();
         form.AddField("username", name);
         form.AddField("password", pass);
-        string URL = "http://localhost/bungkal/userSelect.php";
+        string URL = "http://"+DB_URL+"/bungkal/userSelect.php";
         using (UnityWebRequest users = UnityWebRequest.Post(URL, form))
         {
             yield return users.SendWebRequest();
@@ -66,10 +69,10 @@ public class AuthManager : MonoBehaviour
             WWWForm form = new WWWForm();
             form.AddField("username", name);
             form.AddField("password", pass);
-            string URL = "http://localhost/bungkal/register.php";
+            string URL = "http://"+DB_URL+"/bungkal/register.php";
             using (UnityWebRequest users = UnityWebRequest.Post(URL, form))
             {
-                yield return users.SendWebRequest();
+                    yield return users.SendWebRequest();
                 if (users.result == UnityWebRequest.Result.ConnectionError)
                 {
                     status.text = users.downloadHandler.text;
@@ -84,7 +87,7 @@ public class AuthManager : MonoBehaviour
                     StaticData.SaveID(Int32.Parse(users.downloadHandler.text));
                     StaticData.SaveName(name);
                     callback();
-                }
+                } 
             }
         } else {
             status.text = "Password is invalid (Must have a minimum of 8 characters, atleast 1 Upper case letter, 1 lower case letter, 1 number, and 1 special character)";

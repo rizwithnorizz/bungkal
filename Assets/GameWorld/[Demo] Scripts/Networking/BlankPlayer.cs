@@ -18,7 +18,10 @@ public class BlankPlayer : MonoBehaviour
         public String username;
         public int userID;
         public int heatlhPoints;
+        public int dustCoins;
         public List<Artifacts> artifactNew = new List<Artifacts>();
+        public List<Tools> playerTools = new List<Tools>();
+        public Tools equippedTool;
     }
 }
     //Compiler of user properties and its inventory of artifacts

@@ -40,9 +40,9 @@ public class Inventory_UI : MonoBehaviour, IPointerClickHandler
     while (x < player.compiler.artifactNew.Count)
     {
         var artifact = player.compiler.artifactNew[x];
-        if (artifact != null && artifact.type != CollectableType.NONE)
+        if (artifact != null)
         {
-            slots[x].SetItem(artifact);
+            slots[x].SetItem(artifact, x);
             slots[x].OnItemClicked += HandleItemSelect;
             slots[x].OnRightMouseBtnClick += HandleShowItemActions;
             //Debug.Log("Setup: Added artifact: " + artifact.artifact_name);

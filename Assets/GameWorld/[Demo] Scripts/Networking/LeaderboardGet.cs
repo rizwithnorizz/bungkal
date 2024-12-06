@@ -8,14 +8,19 @@ using UnityEngine.UI;
 
 public class LeaderboardGet : MonoBehaviour
 {
+
+    string envPath = Application.dataPath + "/.env";
     public TMP_Text textf;
+    string DB_URL;
     void Start()
     {
+        EnvLoader.LoadEnv(envPath);
+        DB_URL = EnvLoader.GetEnv("DB_URL");
         StartCoroutine(GetData_Coroutine());
     }
 
     public IEnumerator GetData_Coroutine(){
-        string URL = "http://localhost/bungkal/leaderboardAccumulate.php";
+        string URL = "http://"+DB_URL+"/bungkal/leaderboardAccumulate.php";
     
 
         using (UnityWebRequest users = UnityWebRequest.Get(URL)){

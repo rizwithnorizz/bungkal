@@ -8,6 +8,7 @@ public class QuestionScript : MonoBehaviour
 {
     public GameObject _questionPanel;
     public TMP_InputField _questionField;
+    public Player player;
 
     [System.Serializable]
     public class Compile{
@@ -50,7 +51,6 @@ public class QuestionScript : MonoBehaviour
 
     public void wrongAnswer(){
         _questionPanel.SetActive(false);
-        Player player = FindObjectOfType<Player>();
         player.decreaseHealth();
         Debug.Log("Wrong answer!");
     }
