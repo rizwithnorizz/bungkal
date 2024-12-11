@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
         Debug.Log("Added artifact: "+newArtifact.artifact_name);
         save.export();
         lead.PostScore(compiler.userID, compiler.username, newArtifact);
+        ScoreGet.newArt = true;
     }
     public void AddTools(Tools tool)
     {

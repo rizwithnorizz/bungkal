@@ -23,24 +23,21 @@ public class QuestionScript : MonoBehaviour
         } else {
             _questionPanel.SetActive(true);
         }
+
+        
     }
     public void generateQuestion(){
         _questionPanel.SetActive(true);
         int randomIndex = Random.Range(0, compiler.QnA.Count);
         _questionField.text = compiler.QnA[randomIndex].question;
 
-        compiler.choices[0].GetComponentInChildren<TMP_Text>().text = compiler.QnA[randomIndex].answers[0];
-        compiler.choices[1].GetComponentInChildren<TMP_Text>().text = compiler.QnA[randomIndex].answers[1];
-        compiler.choices[2].GetComponentInChildren<TMP_Text>().text = compiler.QnA[randomIndex].answers[2];
-        compiler.choices[3].GetComponentInChildren<TMP_Text>().text = compiler.QnA[randomIndex].answers[3];
-
         for (int x = 0; x<4; x++){
+            compiler.choices[x].GetComponentInChildren<TMP_Text>().text = compiler.QnA[randomIndex].answers[x];
             if (x == compiler.QnA[randomIndex].correctIndex){ 
                 compiler.choices[x].onClick.AddListener(correctAnswer);
             }else{
                 compiler.choices[x].onClick.AddListener(wrongAnswer);
             }
-
         }
     }
 

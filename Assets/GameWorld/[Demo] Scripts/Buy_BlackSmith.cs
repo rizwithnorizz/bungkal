@@ -14,6 +14,8 @@ public class Buy_BlackSmith : MonoBehaviour
             player.AddTools(blackSmith.compiler.toolsSale[index]);
             player.decreaseDustCoins(blackSmith.compiler.toolsSale[index].cost);
             Debug.Log("Purchase successful");
+        } else {
+            Debug.Log("Not enough coins");
         }
     }
 }

@@ -12,6 +12,7 @@ public class Buy : MonoBehaviour
         int index = Merchant_UI.currentIndex;
         if (player.compiler.dustCoins >= trader.compiler.artifactNew[index].cost){
             player.AddArtifact(trader.compiler.artifactNew[index]);
+            player.decreaseDustCoins(trader.compiler.artifactNew[index].cost);
             Debug.Log("Purchase successful");
         }
     }
