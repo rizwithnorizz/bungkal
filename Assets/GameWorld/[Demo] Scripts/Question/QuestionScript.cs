@@ -44,14 +44,21 @@ public class QuestionScript : MonoBehaviour
     public void correctAnswer(){
         _questionPanel.SetActive(false);
         Debug.Log("Correct Answer!");
+        clearListening();
     }
 
     public void wrongAnswer(){
         _questionPanel.SetActive(false);
         player.decreaseHealth();
         Debug.Log("Wrong answer!");
+        clearListening();
     }
 
+    public void clearListening(){
+        for (int x = 0; x<4; x++){
+            compiler.choices[x].onClick.RemoveAllListeners();
+        }
+    }
     public void closeWindow(){
         _questionPanel.SetActive(false);
     }
