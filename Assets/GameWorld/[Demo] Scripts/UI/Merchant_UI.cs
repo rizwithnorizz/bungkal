@@ -8,6 +8,7 @@ using TMPro;
 public class Merchant_UI : MonoBehaviour, IPointerClickHandler
 {
     public static int currentIndex;
+    public TMP_Text costText;
     public Trader trader;
     public GameObject inventoryPanel;
     public List<Slots_UI> slots = new List<Slots_UI>();
@@ -58,15 +59,11 @@ public class Merchant_UI : MonoBehaviour, IPointerClickHandler
     public TMP_Text title;
     public TMP_Text descriptionText;
     public Image iconUI;
-    private void resetDescription(){
-        title.text = "";
-        descriptionText.text = "";
-        iconUI.sprite = null;
-    }
     private void setDescription(Artifacts art){
         title.text = art.artifact_name;
         descriptionText.text = art.description;
         iconUI.sprite = art.icon;
+        costText.text = art.cost.ToString();
     }
     private void HandleShowItemActions(Slots_UI uI)
     {
